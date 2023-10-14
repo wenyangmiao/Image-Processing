@@ -1,0 +1,39 @@
+import cv2
+import PIL
+
+# Image Reading and Edge Detection
+img = cv2.imread('picture.jpg')
+gray = cv2.imread('picture.jpg', cv2.IMREAD_GRAYSCALE)
+gray = cv2.resize(gray, (400, 430))
+img = cv2.resize(img, (400, 430))
+canny = cv2.Canny(img, 50, 240)
+cv2.imshow('original', img)
+cv2.imshow('Gray', gray)
+cv2.imshow('Canny',canny)
+cv2.waitKey()
+
+# Harris Corner Detection
+input_file = 'box.png'
+img = cv2.imread(input_file)
+cv2.imshow('Input image', img)
+
+img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+img_gray = np.float32(img_gray)
+
+img_harris = cv2.cornerHarris(img_gray, 7, 5, 0.04)
+img_harris = cv2.dilate(img_harris, None)
+img[img_harris > 0.01 * img_harris.max()] = [0, 0, 0]
+cv2.imshow('Harris Corners', img)
+cv2.waitKey()
+
+# SIFT Keypoint Detection
+import cv2
+
+# Read the image
+image = cv2.imread('box.jpg', cv2.IMREAD_GRAYSCALE)
+
+sift = cv2.SIFT_create()
+keypoints, descriptors = sift.detectAndCompute(image, None)
+img_keypoints = cv2.drawKeypoints(image, keypoints, None)
+cv2.imshow('SIFT Keypoints', img_keypoints)
+cv2.waitKey()
